@@ -93,7 +93,7 @@ public class SemanticDevice extends Device {
 			String stToURL = transformURNToURL(ssdpPacket.getST());
 			String originDeviceTypeURL = transformURNToURL(getDeviceType());
 //			System.out.println("[Debug][SemanticDevice] stURL " + stToURL + " and origin " + originDeviceTypeURL);
-
+			System.out.println("ccc");
 			if (ontologyBrokerMatch.invokeMatch(stToURL, originDeviceTypeURL).equals("true")) {
 //				System.out.println("[Debug][SemanticDevice]" + originDeviceTypeURL + " is send search response");
 				String devUSN = getUDN();

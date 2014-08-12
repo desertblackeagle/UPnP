@@ -36,7 +36,7 @@ public class MyRemoteControllerUI extends JFrame {
 				// TODO Auto-generated method stub
 //				remoteCtrl.displayMyPrint();
 //				remoteCtrl.invokeMatch("1","2");
-				remoteCtrl.search("urn:schemas-upnp-org:service:TV:1");
+				remoteCtrl.search("urn:schemas-upnp-org:device:TV:1");
 			}
 		});
 		add(printBtn);

@@ -59,7 +59,7 @@ public class OntologyBroker extends Device implements ActionListener, QueryListe
 			} else {
 				resultArg.setValue("false");
 				matchVar.setValue("false");
-				System.out.println("match result : " + temp + " i not a " + temp2);
+				System.out.println("match result : " + temp + " is not a " + temp2);
 			}
 			ret = true;
 		}

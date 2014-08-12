@@ -31,7 +31,7 @@ public class RoseRemoteCtrl extends ControlPoint implements NotifyListener, Even
 	}
 
 	public void deviceSearchResponseReceived(SSDPPacket packet) {
-//		System.out.println("deviceSearchResponseReceived \n" + new String(packet.getData()));
+		System.out.println("deviceSearchResponseReceived \n" + new String(packet.getData()));
 	}
 
 	public void eventNotifyReceived(String uuid, long seq, String name, String value) {

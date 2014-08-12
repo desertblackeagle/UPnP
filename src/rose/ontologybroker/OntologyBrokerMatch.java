@@ -22,8 +22,8 @@ public class OntologyBrokerMatch extends ControlPoint{
 		String value = "";
 		Action getMatchAct = ontDev.getAction("Match");
 		System.out.println("originRDF : " + originRDF + "\nstRDF : " + stRDF);
-		getMatchAct.setArgumentValue("RDF", stRDF);
-		getMatchAct.setArgumentValue("RDF2", originRDF);
+		getMatchAct.setArgumentValue("RDF", originRDF);
+		getMatchAct.setArgumentValue("RDF2", stRDF);
 		if (getMatchAct.postControlAction() == false) {
 			System.out.println("Can't get Match action");
 			return "Can't get Match action";
