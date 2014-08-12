@@ -5,12 +5,13 @@ import java.io.InputStream;
 
 import org.cybergarage.upnp.Device;
 import org.cybergarage.upnp.DeviceList;
-import org.cybergarage.upnp.OntologyBrokerMatch;
 import org.cybergarage.upnp.Service;
 import org.cybergarage.upnp.ServiceList;
 import org.cybergarage.upnp.device.InvalidDescriptionException;
 import org.cybergarage.upnp.ssdp.SSDPPacket;
 import org.cybergarage.xml.Node;
+
+import rose.ontologybroker.OntologyBrokerMatch;
 
 public class SemanticDevice extends Device {
 	private OntologyBrokerMatch ontologyBrokerMatch;

@@ -123,7 +123,6 @@ public class DisplayDevice extends Device implements ActionListener, QueryListen
 		printMsg = getStateVariable("Msg");
 		
 		setLeaseTime(100);
-		setOntologyURL("http://schemas.upnp.org/device/display/1");
 		
 	}
 

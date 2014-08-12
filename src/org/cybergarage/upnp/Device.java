@@ -1623,61 +1623,58 @@ public class Device implements HTTPRequestListener, SearchListener
         return true;
     }
 
-    public void deviceSearchResponse(SSDPPacket ssdpPacket)
-    {
-        String ssdpST = ssdpPacket.getST();
+	public boolean deviceSearchResponse(SSDPPacket ssdpPacket) {
+		String ssdpST = ssdpPacket.getST();
+		boolean deviceFind = false;
+		if (ssdpST == null)
+			return deviceFind;
 
-        if (ssdpST == null)
-            return;
+		boolean isRootDevice = isRootDevice();
 
-        boolean isRootDevice = isRootDevice();
+		String devUSN = getUDN();
+		if (isRootDevice == true)
+			devUSN += "::" + USN.ROOTDEVICE;
 
-        String devUSN = getUDN();
-        if (isRootDevice == true)
-            devUSN += "::" + USN.ROOTDEVICE;
+		if (ST.isAllDevice(ssdpST) == true) {
+			String devNT = getNotifyDeviceNT();
+			int repeatCnt = (isRootDevice == true) ? 3 : 2;
+			for (int n = 0; n < repeatCnt; n++)
+				postSearchResponse(ssdpPacket, devNT, devUSN);
+			deviceFind = true;
+		} else if (ST.isRootDevice(ssdpST) == true) {
+			if (isRootDevice == true)
+				postSearchResponse(ssdpPacket, ST.ROOT_DEVICE, devUSN);
+			deviceFind = true;
+		} else if (ST.isUUIDDevice(ssdpST) == true) {
+			String devUDN = getUDN();
+			if (ssdpST.equals(devUDN) == true)
+				postSearchResponse(ssdpPacket, devUDN, devUSN);
+			deviceFind = true;
+		} else if (ST.isURNDevice(ssdpST) == true) {
+			String devType = getDeviceType();
+			if (ssdpST.equals(devType) == true) {
+				// Thanks for Mikael Hakman (04/25/05)
+				devUSN = getUDN() + "::" + devType;
+				postSearchResponse(ssdpPacket, devType, devUSN);
+				deviceFind = true;
+			}
+		}
 
-        if (ST.isAllDevice(ssdpST) == true)
-        {
-            String devNT = getNotifyDeviceNT();
-            int repeatCnt = (isRootDevice == true) ? 3 : 2;
-            for (int n = 0; n < repeatCnt; n++)
-                postSearchResponse(ssdpPacket, devNT, devUSN);
-        } else if (ST.isRootDevice(ssdpST) == true)
-        {
-            if (isRootDevice == true)
-                postSearchResponse(ssdpPacket, ST.ROOT_DEVICE, devUSN);
-        } else if (ST.isUUIDDevice(ssdpST) == true)
-        {
-            String devUDN = getUDN();
-            if (ssdpST.equals(devUDN) == true)
-                postSearchResponse(ssdpPacket, devUDN, devUSN);
-        } else if (ST.isURNDevice(ssdpST) == true)
-        {
-            String devType = getDeviceType();
-            if (ssdpST.equals(devType) == true)
-            {
-                // Thanks for Mikael Hakman (04/25/05)
-                devUSN = getUDN() + "::" + devType;
-                postSearchResponse(ssdpPacket, devType, devUSN);
-            }
-        }
+		ServiceList serviceList = getServiceList();
+		int serviceCnt = serviceList.size();
+		for (int n = 0; n < serviceCnt; n++) {
+			Service service = serviceList.getService(n);
+			service.serviceSearchResponse(ssdpPacket);
+		}
 
-        ServiceList serviceList = getServiceList();
-        int serviceCnt = serviceList.size();
-        for (int n = 0; n < serviceCnt; n++)
-        {
-            Service service = serviceList.getService(n);
-            service.serviceSearchResponse(ssdpPacket);
-        }
-
-        DeviceList childDeviceList = getDeviceList();
-        int childDeviceCnt = childDeviceList.size();
-        for (int n = 0; n < childDeviceCnt; n++)
-        {
-            Device childDevice = childDeviceList.getDevice(n);
-            childDevice.deviceSearchResponse(ssdpPacket);
-        }
-    }
+		DeviceList childDeviceList = getDeviceList();
+		int childDeviceCnt = childDeviceList.size();
+		for (int n = 0; n < childDeviceCnt; n++) {
+			Device childDevice = childDeviceList.getDevice(n);
+			childDevice.deviceSearchResponse(ssdpPacket);
+		}
+		return deviceFind;
+	}
 
     public void deviceSearchReceived(SSDPPacket ssdpPacket)
     {

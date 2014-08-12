@@ -124,7 +124,6 @@ public class SemanticDeviceLCD extends SemanticDevice implements ActionListener,
 		printMsg = getStateVariable("Msg");
 		
 		setLeaseTime(100);
-		setOntologyURL("http://schemas.upnp.org/device/LCD/1");
 		
 	}
 

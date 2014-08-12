@@ -121,7 +121,6 @@ public class SemantciDeviceTest extends SemanticDevice implements ActionListener
 		printMsg = getStateVariable("Msg");
 		
 		setLeaseTime(100);
-		setOntologyURL("http://schemas.upnp.org/device/display/1");
 		
 	}
 

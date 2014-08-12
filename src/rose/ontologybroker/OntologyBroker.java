@@ -35,7 +35,6 @@ public class OntologyBroker extends Device implements ActionListener, QueryListe
 
 		matchVar = getStateVariable("Matched");
 		setLeaseTime(5);
-		setOntologyURL("http://schemas.upnp.org/device/ontologybroker/1");
 	}
 
 	@Override

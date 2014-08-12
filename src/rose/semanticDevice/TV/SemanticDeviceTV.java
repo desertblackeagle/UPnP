@@ -124,7 +124,6 @@ public class SemanticDeviceTV extends SemanticDevice implements ActionListener, 
 		printMsg = getStateVariable("Msg");
 		
 		setLeaseTime(100);
-		setOntologyURL("http://schemas.upnp.org/device/TV/1");
 	}
 
 	////////////////////////////////////////////////

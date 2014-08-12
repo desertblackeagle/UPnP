@@ -122,7 +122,6 @@ public class DeviceLCD extends Device implements ActionListener, QueryListener{
 		printMsg = getStateVariable("Msg");
 		
 		setLeaseTime(10);
-		setOntologyURL("http://schemas.upnp.org/device/LCD/1");
 		
 	}
 
