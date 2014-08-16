@@ -16,7 +16,7 @@ public class MyRemoteControllerUI extends JFrame {
 		setSize(800, 600);
 		setVisible(true);
 		setLayout(null);
-		
+
 		remoteCtrl = new RoseRemoteCtrl();
 		System.out.println("remoteCtrl start");
 		remoteCtrl.start();
@@ -35,8 +35,11 @@ public class MyRemoteControllerUI extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 //				remoteCtrl.displayMyPrint();
+				for (int i = 1; i <= 100; i++) {
+					remoteCtrl.displayMyPrint("urn:schemas-upnp-org:device:TV:" + i);
+				}
 //				remoteCtrl.invokeMatch("1","2");
-				remoteCtrl.search("urn:schemas-upnp-org:device:TV:1");
+//				remoteCtrl.search("urn:schemas-upnp-org:device:TV:1");
 			}
 		});
 		add(printBtn);

@@ -246,8 +246,10 @@ public class ControlPoint implements HTTPRequestListener
 
     private synchronized void addDevice(SSDPPacket ssdpPacket)
     {
-        if (ssdpPacket.isRootDevice() == false)
-            return;
+        if (ssdpPacket.isRootDevice() == false){
+        	System.out.println(ssdpPacket.getNT() + "is not root");
+        	return;
+        }
 
         String usn = ssdpPacket.getUSN();
         String udn = USN.getUDN(usn);
@@ -257,13 +259,13 @@ public class ControlPoint implements HTTPRequestListener
             dev.setSSDPPacket(ssdpPacket);
             return;
         }
-
         String location = ssdpPacket.getLocation();
         try
         {
             URL locationUrl = new URL(location);
             Parser parser = UPnP.getXMLParser();
             Node rootNode = parser.parse(locationUrl);
+//            rootNode.print();
             Device rootDev = getDevice(rootNode);
             if (rootDev == null)
                 return;
@@ -532,9 +534,9 @@ public class ControlPoint implements HTTPRequestListener
     public void notifyReceived(SSDPPacket packet)
     {
         if (packet.isRootDevice() == true)
-        {
+        { 	
             if (packet.isAlive() == true)
-            {
+            {  	
                 addDevice(packet);
             } else if (packet.isByeBye() == true)
             {

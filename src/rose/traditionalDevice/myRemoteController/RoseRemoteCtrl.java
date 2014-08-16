@@ -27,11 +27,11 @@ public class RoseRemoteCtrl extends ControlPoint implements NotifyListener, Even
 
 	public void deviceNotifyReceived(SSDPPacket packet) {
 //		System.out.println(packet.getOntologyURL());
-//		System.out.println("deviceNotifyReceived " + packet);
+//		System.out.println("deviceNotifyReceived " + new String(packet.getData()));
 	}
 
 	public void deviceSearchResponseReceived(SSDPPacket packet) {
-		System.out.println("deviceSearchResponseReceived \n" + new String(packet.getData()));
+//		System.out.println("deviceSearchResponseReceived \n" + new String(packet.getData()));
 	}
 
 	public void eventNotifyReceived(String uuid, long seq, String name, String value) {
@@ -41,6 +41,31 @@ public class RoseRemoteCtrl extends ControlPoint implements NotifyListener, Even
 	public void displayMyPrint() {
 //		search("urn:schemas-upnp-org:device:LCD:1", 10);
 		Device dev = getDevice(DISPLAY_DEVICE_TYPE);
+		if (dev == null) {
+			System.out.println("Can't find device");
+			return;
+		}
+
+		Action getPrintAct = dev.getAction("Print");
+		getPrintAct.setArgumentValue("Msg", "I want find TV");
+		if (getPrintAct.postControlAction() == false) {
+			System.out.println("Can't get print action");
+			return;
+		} else {
+			ArgumentList outArgList = getPrintAct.getOutputArgumentList();
+			int nOutArgs = outArgList.size();
+			for (int n = 0; n < nOutArgs; n++) {
+				Argument outArg = outArgList.getArgument(n);
+				String name = outArg.getName();
+				String value = outArg.getValue();
+				System.out.println("name : " + name + "\nvalue : " + value);
+			}
+		}
+	}
+
+	public void displayMyPrint(String d) {
+//		search("urn:schemas-upnp-org:device:LCD:1", 10);
+		Device dev = getDevice(d);
 		if (dev == null) {
 			System.out.println("Can't find device");
 			return;
