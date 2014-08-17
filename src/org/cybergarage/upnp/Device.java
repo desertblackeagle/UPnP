@@ -100,6 +100,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import org.cybergarage.http.HTTP;
@@ -965,6 +966,16 @@ public class Device implements HTTPRequestListener, SearchListener {
 		return null;
 	}
 
+	public ArrayList<String> getAllDevice() {
+		ArrayList<String> deviceAL = new ArrayList<String>();
+		deviceAL.add(this.getDeviceType());
+		DeviceList dl = getDeviceList();
+		for(int i = 0;i < dl.size();i++){
+			deviceAL.addAll(dl.getDevice(i).getAllDevice());
+		}
+		return deviceAL;
+	}
+	
 	public Device getDeviceByDescriptionURI(String uri) {
 		DeviceList devList = getDeviceList();
 		int devCnt = devList.size();

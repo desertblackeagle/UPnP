@@ -28,10 +28,10 @@ import org.cybergarage.util.FileUtil;
 import org.cybergarage.xml.Node;
 import org.cybergarage.xml.XML;
 
-import rose.ontologybroker.OntologyBrokerMatch;
+import rose.RDFMatcher.Matcher;
 
 public class SemanticDevice extends Device {
-	private OntologyBrokerMatch ontologyBrokerMatch;
+	private Matcher ontologyBrokerMatch;
 	private HashMap<String, String> semanticParent = new HashMap<String, String>();
 
 	public SemanticDevice(Node root, Node device) {
@@ -66,7 +66,7 @@ public class SemanticDevice extends Device {
 
 	private void ontologyBrokerInit() {
 //		System.out.println("OntologyBrokerInit init");
-		ontologyBrokerMatch = new OntologyBrokerMatch();
+		ontologyBrokerMatch = new Matcher();
 
 	}
 
@@ -141,9 +141,7 @@ public class SemanticDevice extends Device {
 	// //////////////////////////////////////////////
 
 	public void httpRequestRecieved(HTTPRequest httpReq) {
-		System.out.println("httpRequestRecieved");
 		String uri = httpReq.getURI();
-		System.out.println(uri);
 		if (uri.startsWith("/virtual/description") == true && !uri.replace("/virtual/description", "").equals("")) {
 //			System.out.println("d : "+getLocationURL(httpReq.getLocalAddress()));
 			virtualDescription(uri, httpReq);
@@ -164,15 +162,13 @@ public class SemanticDevice extends Device {
 				if (tmp.trim().startsWith("<deviceType>")) {
 					String deviceName = uri.replace("/virtual/description", "");
 					deviceName = deviceName.replace(".xml", "");
+//					System.out.println("deviceName : " + deviceName);
 					tmp = "<deviceType>" + semanticParent.get(deviceName) + "</deviceType>";
-					System.out.println("deviceName : " + deviceName);
-					System.out.println("tmp : " + tmp);
+//					System.out.println("deviceType : " + tmp);
 				} else if (tmp.trim().startsWith("<UDN>")) {
 					String deviceName = uri.replace("/virtual/description", "");
 					deviceName = deviceName.replace(".xml", "");
 					tmp = tmp.trim().replace("</UDN>", "") + deviceName + "</UDN>";
-					System.out.println("deviceName : " + deviceName);
-					System.out.println("tmp : " + tmp);
 				}
 				sumStream += tmp;
 			}

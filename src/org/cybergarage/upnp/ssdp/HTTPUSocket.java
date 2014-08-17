@@ -23,10 +23,13 @@
 
 package org.cybergarage.upnp.ssdp;
 
+import java.net.BindException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 
 import org.cybergarage.util.Debug;
 
@@ -105,6 +108,31 @@ public class HTTPUSocket {
 		return true;
 	}
 
+	public DatagramSocket addressAlreadyBindFix(DatagramSocket ssdpUniSock, InetSocketAddress bindInetAddr, String bindAddr, int bindPort) {
+
+		try {
+			while (ssdpUniSock == null) {
+				System.out.println("Address already in use: Cannot bind");
+				bindPort++;
+				System.out.println(bindPort);
+				System.out.println("bindInetAddr1 : " + bindInetAddr + "\nbindInetAddr1 port : " + bindInetAddr.getPort());
+				bindInetAddr = new InetSocketAddress(InetAddress.getByName(bindAddr), bindPort);
+				System.out.println("bindInetAddr : " + bindInetAddr + "\nbindInetAddr port : " + bindInetAddr.getPort());
+				ssdpUniSock = new DatagramSocket(bindInetAddr);
+				System.out.println("ssdpUniSock : " + ssdpUniSock);
+				System.out.println("ssdpUniSock port : " + ssdpUniSock.getPort());
+			}
+			return ssdpUniSock;
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SocketException e) {
+			// TODO Auto-generated catch block
+//			System.out.println("Address already in use again: Cannot bind");
+		}
+		return addressAlreadyBindFix(ssdpUniSock, bindInetAddr, bindAddr, bindPort);
+	}
+
 	public boolean open(String bindAddr, int bindPort) {
 		close();
 
@@ -114,13 +142,12 @@ public class HTTPUSocket {
 			InetSocketAddress bindInetAddr = new InetSocketAddress(InetAddress.getByName(bindAddr), bindPort);
 			try {
 				ssdpUniSock = new DatagramSocket(bindInetAddr);
+			} catch (BindException e) {
+				System.out.println("Bind Exception");
+				ssdpUniSock = addressAlreadyBindFix(ssdpUniSock, bindInetAddr, bindAddr, bindPort);
+				System.out.println("Bind fix end ---------------------------------------------------------------------------------------" + ssdpUniSock);
 			} catch (Exception e) {
-				while (ssdpUniSock == null) {
-					System.out.println("Address already in use: Cannot bind");
-					bindPort++;
-					bindInetAddr = new InetSocketAddress(InetAddress.getByName(bindAddr), bindPort);
-					ssdpUniSock = new DatagramSocket(bindInetAddr);
-				}
+				e.printStackTrace();
 			}
 		} catch (Exception e) {
 			Debug.warning(e);

@@ -1,4 +1,4 @@
-package rose.ontologybroker;
+package rose.RDFMatcher;
 
 import org.cybergarage.upnp.Action;
 import org.cybergarage.upnp.Argument;
@@ -7,8 +7,8 @@ import org.cybergarage.upnp.ControlPoint;
 import org.cybergarage.upnp.Device;
 
 
-public class OntologyBrokerMatch extends ControlPoint{
-	public OntologyBrokerMatch() {
+public class Matcher extends ControlPoint{
+	public Matcher() {
 		search();
 	}
 

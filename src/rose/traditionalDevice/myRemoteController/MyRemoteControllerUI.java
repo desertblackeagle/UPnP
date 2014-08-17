@@ -34,10 +34,10 @@ public class MyRemoteControllerUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-//				remoteCtrl.displayMyPrint();
-				for (int i = 1; i <= 100; i++) {
-					remoteCtrl.displayMyPrint("urn:schemas-upnp-org:device:TV:" + i);
-				}
+				remoteCtrl.displayMyPrint();
+//				for (int i = 1; i <= 100; i++) {
+//					remoteCtrl.displayMyPrint("urn:schemas-upnp-org:device:TV:" + i);
+//				}
 //				remoteCtrl.invokeMatch("1","2");
 //				remoteCtrl.search("urn:schemas-upnp-org:device:TV:1");
 			}

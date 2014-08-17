@@ -85,6 +85,9 @@ public class SSDPSearchResponseSocket extends HTTPUSocket implements Runnable
 
         StringBuffer name = new StringBuffer("Cyber.SSDPSearchResponseSocket/");
         DatagramSocket s = getDatagramSocket();
+//        while(s == null){
+//        	s = getDatagramSocket();
+//        }
         // localAddr is null on Android m3-rc37a (01/30/08)
         InetAddress localAddr = s.getLocalAddress();
         if (localAddr != null)
