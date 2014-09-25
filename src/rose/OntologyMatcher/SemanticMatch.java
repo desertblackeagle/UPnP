@@ -1,4 +1,4 @@
-package rose.RDFMatcher;
+package rose.OntologyMatcher;
 
 import java.io.File;
 import java.io.FileInputStream;

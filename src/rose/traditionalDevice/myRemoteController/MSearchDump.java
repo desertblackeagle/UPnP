@@ -1,27 +1,19 @@
-package rose.semanticDevice.LEDLight;
+package rose.traditionalDevice.myRemoteController;
 
 import java.io.IOException;
 
-import org.cybergarage.http.HTTPRequest;
-import org.cybergarage.http.HTTPResponse;
-import org.cybergarage.http.HTTPStatus;
 import org.cybergarage.net.HostInterface;
 import org.cybergarage.upnp.Action;
-import org.cybergarage.upnp.Argument;
+import org.cybergarage.upnp.Device;
 import org.cybergarage.upnp.Service;
 import org.cybergarage.upnp.ServiceList;
 import org.cybergarage.upnp.StateVariable;
-import org.cybergarage.upnp.UPnP;
 import org.cybergarage.upnp.control.ActionListener;
 import org.cybergarage.upnp.control.QueryListener;
 import org.cybergarage.upnp.device.InvalidDescriptionException;
-import org.cybergarage.upnp.device.NTS;
-import org.cybergarage.upnp.ssdp.SSDPNotifyRequest;
-import org.cybergarage.upnp.ssdp.SSDPNotifySocket;
+import org.cybergarage.upnp.ssdp.SSDPPacket;
 
-import rose.semanticDevice.SemanticDevice;
-
-public class SemanticDeviceLEDLight extends SemanticDevice implements ActionListener, QueryListener{
+public class MSearchDump extends Device implements ActionListener, QueryListener{
 	private final static String PRESENTATION_URI = "/presentation";
 	
 	private final static String DEVICE_DESCRIPTION = 
@@ -32,17 +24,17 @@ public class SemanticDeviceLEDLight extends SemanticDevice implements ActionList
 		" 		<minor>0</minor>  \n" +
 		" 	</specVersion> \n" +
 		" 	<device> \n" +
-		" 		<deviceType>urn:schemas-upnp-org:device:LED:1</deviceType>  \n" +
-		" 		<friendlyName>CyberGarage LED Device</friendlyName>  \n" +
+		" 		<deviceType>urn:schemas-upnp-org:device:LCD:1</deviceType>  \n" +
+		" 		<friendlyName>CyberGarage Semantic LCD Device</friendlyName>  \n" +
 		" 		<manufacturer>CyberGarage</manufacturer>  \n" +
 		" 		<manufacturerURL>http://www.cybergarage.org</manufacturerURL>  \n" +
-		" 		<modelDescription>CyberUPnP LED Device</modelDescription>  \n" +
-		" 		<modelName>LED</modelName>  \n" +
+		" 		<modelDescription>CyberUPnP LCD Device</modelDescription>  \n" +
+		" 		<modelName>Display</modelName>  \n" +
 		" 		<modelNumber>1.0</modelNumber>  \n" +
 		" 		<modelURL>http://www.cybergarage.org</modelURL>  \n" +
-		" 		<serialNumber>1234567823</serialNumber>  \n" +
-		" 		<UDN>uuid:cybergarageLEDDevice</UDN>  \n" +
-		" 		<UPC>123456789034</UPC>  \n" +
+		" 		<serialNumber>1234567835</serialNumber>  \n" +
+		" 		<UDN>uuid:cybergarageLCDDevice</UDN>  \n" +
+		" 		<UPC>123456789024</UPC>  \n" +
 		" 		<iconList> \n" +
 		" 			<icon> \n" +
 		" 				<mimetype>image/gif</mimetype>  \n" +
@@ -100,12 +92,8 @@ public class SemanticDeviceLEDLight extends SemanticDevice implements ActionList
 		" 		</stateVariable> \n" +
 		" 	</serviceStateTable> \n" +
 		"</scpd>";
-
-
-	private StateVariable printMsg;
-	
-	public SemanticDeviceLEDLight() throws InvalidDescriptionException, IOException
-	{
+	public MSearchDump()throws InvalidDescriptionException, IOException {
+		// TODO Auto-generated constructor stub
 		super();
 		loadDescription(DEVICE_DESCRIPTION);
 		setSSDPBindAddress(
@@ -114,7 +102,6 @@ public class SemanticDeviceLEDLight extends SemanticDevice implements ActionList
 		setHTTPBindAddress(
 				HostInterface.getInetAddress(HostInterface.IPV4_BITMASK, null)
 		);
-		semanticDeviceStart();
 		Service timeService = getService("urn:schemas-upnp-org:service:print:1");
 		timeService.loadSCPD(SERVICE_DESCRIPTION);
 
@@ -124,75 +111,21 @@ public class SemanticDeviceLEDLight extends SemanticDevice implements ActionList
 		ServiceList serviceList = getServiceList();
 		Service service = serviceList.getService(0);
 		service.setQueryListener(this);
-
-		printMsg = getStateVariable("Msg");
 		
-		setLeaseTime(10);
-		addParentDeviceType("Light", "urn:schemas-upnp-org:device:Light:1");
+		setLeaseTime(100);
 	}
 
-	////////////////////////////////////////////////
-	// ActionListener
-	////////////////////////////////////////////////
-
-	public boolean actionControlReceived(Action action)
-	{
-		String actionName = action.getName();
-		if (actionName.equals("Print") == true) {
-			Argument msgArg = action.getArgument("Msg");
-			String temp = msgArg.getValue();
-			Argument resultArg = action.getArgument("Result");
-			resultArg.setValue(temp);
-			System.out.println("display " +temp);
-			return true;
-		}
-		return false;
+	public boolean deviceSearchResponse(SSDPPacket ssdpPacket) {
+		System.out.println(new String(ssdpPacket.getData()));
+		return super.deviceSearchResponse(ssdpPacket);
 	}
 
-	////////////////////////////////////////////////
-	// QueryListener
-	////////////////////////////////////////////////
-
-	public boolean queryControlReceived(StateVariable stateVar)
-	{
-		String varName = stateVar.getName(); 
-		 stateVar.setValue("123"); 
-		 return true; 
-	}
-
-	////////////////////////////////////////////////
-	// HttpRequestListner
-	////////////////////////////////////////////////
-	
-	public void httpRequestRecieved(HTTPRequest httpReq)
-	{
-		String uri = httpReq.getURI();
-		if (uri.startsWith(PRESENTATION_URI) == false) {
-			super.httpRequestRecieved(httpReq);
-			return;
-		}
-		String contents = "<HTML><BODY><H1>" + uri +"Print" + "</H1></BODY></HTML>";
-		
-		HTTPResponse httpRes = new HTTPResponse();
-		httpRes.setStatusCode(HTTPStatus.OK);
-		httpRes.setContent(contents);
-		
-		httpReq.post(httpRes);
-	}
-
-	////////////////////////////////////////////////
-	// update
-	////////////////////////////////////////////////
-
-	public void update()
-	{
-	}			
-	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		MSearchDump msd;
 		try {
-			SemanticDeviceLEDLight d = new SemanticDeviceLEDLight();
-			d.start();
+			msd = new MSearchDump();
+			msd.start();
 		} catch (InvalidDescriptionException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -200,5 +133,19 @@ public class SemanticDeviceLEDLight extends SemanticDevice implements ActionList
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 	}
+
+	@Override
+	public boolean queryControlReceived(StateVariable stateVar) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean actionControlReceived(Action action) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

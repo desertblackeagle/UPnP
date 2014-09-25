@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<scpd>
+	<specVersion>
+		<major>1</major>
+		<minor>0</minor>
+	</specVersion>
+	<actionList>
+		<action>
+			<name>Print</name>
+			<argumentList>
+				<argument>
+					<name>Msg</name>
+					<relatedStateVariable>Msg</relatedStateVariable>
+					<direction>in</direction>
+				</argument>
+				<argument>
+					<name>Result</name>
+					<relatedStateVariable>Result</relatedStateVariable>
+					<direction>out</direction>
+				</argument>
+			</argumentList>
+		</action>
+	</actionList>
+	<serviceStateTable>
+		<stateVariable sendEvents="yes">
+			<name>Msg</name>
+			<dataType>string</dataType>
+		</stateVariable>
+		<stateVariable sendEvents="yes">
+			<name>Result</name>
+			<dataType>string</dataType>
+		</stateVariable>
+	</serviceStateTable>
+</scpd>

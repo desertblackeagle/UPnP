@@ -1,4 +1,4 @@
-package rose.RDFMatcher;
+package rose.OntologyMatcher;
 
 //					TV
 //				    / \

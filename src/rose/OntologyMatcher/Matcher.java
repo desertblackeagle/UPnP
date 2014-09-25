@@ -1,4 +1,4 @@
-package rose.RDFMatcher;
+package rose.OntologyMatcher;
 
 import org.cybergarage.upnp.Action;
 import org.cybergarage.upnp.Argument;

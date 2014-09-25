@@ -1,4 +1,4 @@
-package rose.RDFMatcher;
+package rose.OntologyMatcher;
 
 import java.io.File;
 
@@ -13,12 +13,12 @@ import org.cybergarage.upnp.control.ActionListener;
 import org.cybergarage.upnp.control.QueryListener;
 import org.cybergarage.upnp.device.InvalidDescriptionException;
 
-public class RDFMatcher extends Device implements ActionListener, QueryListener {
+public class OntologyMatcher extends Device implements ActionListener, QueryListener {
 	private final static String DESCRIPTION_FILE_NAME = "C:/Users/helloR/Dropbox/JavaWorspace/UpnpTest/src/rose/ontologybroker/description/description.xml";
 	private StateVariable matchVar;
 	private SemanticMatch semanticMatch;
 
-	public RDFMatcher() throws InvalidDescriptionException {
+	public OntologyMatcher() throws InvalidDescriptionException {
 		// TODO Auto-generated constructor stub
 		super(new File(DESCRIPTION_FILE_NAME));
 		semanticMatch = new SemanticMatch();
@@ -73,9 +73,9 @@ public class RDFMatcher extends Device implements ActionListener, QueryListener 
 	}
 
 	public static void main(String[] args) {
-		RDFMatcher ob;
+		OntologyMatcher ob;
 		try {
-			ob = new RDFMatcher();
+			ob = new OntologyMatcher();
 			ob.start();
 		} catch (InvalidDescriptionException e) {
 			// TODO Auto-generated catch block

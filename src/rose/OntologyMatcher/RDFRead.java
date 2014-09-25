@@ -1,4 +1,4 @@
-package rose.RDFMatcher;
+package rose.OntologyMatcher;
 
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;

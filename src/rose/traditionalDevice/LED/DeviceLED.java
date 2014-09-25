@@ -1,4 +1,4 @@
-package rose.semanticDevice.LEDLight;
+package rose.traditionalDevice.LED;
 
 import java.io.IOException;
 
@@ -8,20 +8,15 @@ import org.cybergarage.http.HTTPStatus;
 import org.cybergarage.net.HostInterface;
 import org.cybergarage.upnp.Action;
 import org.cybergarage.upnp.Argument;
+import org.cybergarage.upnp.Device;
 import org.cybergarage.upnp.Service;
 import org.cybergarage.upnp.ServiceList;
 import org.cybergarage.upnp.StateVariable;
-import org.cybergarage.upnp.UPnP;
 import org.cybergarage.upnp.control.ActionListener;
 import org.cybergarage.upnp.control.QueryListener;
 import org.cybergarage.upnp.device.InvalidDescriptionException;
-import org.cybergarage.upnp.device.NTS;
-import org.cybergarage.upnp.ssdp.SSDPNotifyRequest;
-import org.cybergarage.upnp.ssdp.SSDPNotifySocket;
 
-import rose.semanticDevice.SemanticDevice;
-
-public class SemanticDeviceLEDLight extends SemanticDevice implements ActionListener, QueryListener{
+public class DeviceLED extends Device implements ActionListener, QueryListener{
 	private final static String PRESENTATION_URI = "/presentation";
 	
 	private final static String DEVICE_DESCRIPTION = 
@@ -33,16 +28,16 @@ public class SemanticDeviceLEDLight extends SemanticDevice implements ActionList
 		" 	</specVersion> \n" +
 		" 	<device> \n" +
 		" 		<deviceType>urn:schemas-upnp-org:device:LED:1</deviceType>  \n" +
-		" 		<friendlyName>CyberGarage LED Device</friendlyName>  \n" +
+		" 		<friendlyName>CyberGarage Traditional LED Device</friendlyName>  \n" +
 		" 		<manufacturer>CyberGarage</manufacturer>  \n" +
 		" 		<manufacturerURL>http://www.cybergarage.org</manufacturerURL>  \n" +
 		" 		<modelDescription>CyberUPnP LED Device</modelDescription>  \n" +
-		" 		<modelName>LED</modelName>  \n" +
+		" 		<modelName>Display</modelName>  \n" +
 		" 		<modelNumber>1.0</modelNumber>  \n" +
 		" 		<modelURL>http://www.cybergarage.org</modelURL>  \n" +
-		" 		<serialNumber>1234567823</serialNumber>  \n" +
+		" 		<serialNumber>1234567835</serialNumber>  \n" +
 		" 		<UDN>uuid:cybergarageLEDDevice</UDN>  \n" +
-		" 		<UPC>123456789034</UPC>  \n" +
+		" 		<UPC>123456789024</UPC>  \n" +
 		" 		<iconList> \n" +
 		" 			<icon> \n" +
 		" 				<mimetype>image/gif</mimetype>  \n" +
@@ -104,7 +99,7 @@ public class SemanticDeviceLEDLight extends SemanticDevice implements ActionList
 
 	private StateVariable printMsg;
 	
-	public SemanticDeviceLEDLight() throws InvalidDescriptionException, IOException
+	public DeviceLED() throws InvalidDescriptionException, IOException
 	{
 		super();
 		loadDescription(DEVICE_DESCRIPTION);
@@ -114,7 +109,6 @@ public class SemanticDeviceLEDLight extends SemanticDevice implements ActionList
 		setHTTPBindAddress(
 				HostInterface.getInetAddress(HostInterface.IPV4_BITMASK, null)
 		);
-		semanticDeviceStart();
 		Service timeService = getService("urn:schemas-upnp-org:service:print:1");
 		timeService.loadSCPD(SERVICE_DESCRIPTION);
 
@@ -128,7 +122,7 @@ public class SemanticDeviceLEDLight extends SemanticDevice implements ActionList
 		printMsg = getStateVariable("Msg");
 		
 		setLeaseTime(10);
-		addParentDeviceType("Light", "urn:schemas-upnp-org:device:Light:1");
+		
 	}
 
 	////////////////////////////////////////////////
@@ -191,7 +185,7 @@ public class SemanticDeviceLEDLight extends SemanticDevice implements ActionList
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		try {
-			SemanticDeviceLEDLight d = new SemanticDeviceLEDLight();
+			DeviceLED d = new DeviceLED();
 			d.start();
 		} catch (InvalidDescriptionException e) {
 			// TODO Auto-generated catch block

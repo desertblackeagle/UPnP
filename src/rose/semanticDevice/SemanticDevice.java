@@ -28,7 +28,7 @@ import org.cybergarage.util.FileUtil;
 import org.cybergarage.xml.Node;
 import org.cybergarage.xml.XML;
 
-import rose.RDFMatcher.Matcher;
+import rose.OntologyMatcher.Matcher;
 
 public class SemanticDevice extends Device {
 	private Matcher ontologyBrokerMatch;
@@ -150,7 +150,7 @@ public class SemanticDevice extends Device {
 		}
 	}
 
-	public void virtualDescription(String uri, HTTPRequest httpReq) {
+	private void virtualDescription(String uri, HTTPRequest httpReq) {
 		byte fileByte[] = new byte[0];
 		URL u = null;
 		try {
@@ -205,7 +205,7 @@ public class SemanticDevice extends Device {
 		}
 	}
 
-	public void virtualDeviceAnnounce(String bindAddr, String location, String deviceName) {
+	private void virtualDeviceAnnounce(String bindAddr, String location, String deviceName) {
 		SSDPNotifySocket ssdpSock = new SSDPNotifySocket(bindAddr);
 		SSDPNotifyRequest ssdpReq = new SSDPNotifyRequest();
 		ssdpReq.setServer(UPnP.getServerName());

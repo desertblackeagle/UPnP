@@ -66,11 +66,11 @@ public class SemanticDeviceLCD extends SemanticDevice implements ActionListener,
 
 		printMsg = getStateVariable("Msg");
 
-		setLeaseTime(100);
+		setLeaseTime(10);
 		addParentDeviceType("TV", "urn:schemas-upnp-org:device:TV:1");
-		for (int i = 2; i <= 100; i++) {
-			addParentDeviceType("TV" + i, "urn:schemas-upnp-org:device:TV:" + i);
-		}
+//		for (int i = 2; i <= 100; i++) {
+//			addParentDeviceType("TV" + i, "urn:schemas-upnp-org:device:TV:" + i);
+//		}
 	}
 
 	// //////////////////////////////////////////////
